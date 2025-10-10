@@ -10,10 +10,10 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 from kivy.config import Config
-from pidev.pidev.kivy.PassCodeScreen import PassCodeScreen
-from pidev.pidev.kivy.PauseScreen import PauseScreen
-from pidev.pidev.kivy.AdminScreen import AdminScreen
-from pidev.pidev.kivy.DPEAButton import DPEAButton
+from pidev.kivy.PassCodeScreen import PassCodeScreen
+from pidev.kivy.PauseScreen import PauseScreen
+from pidev.kivy.AdminScreen import AdminScreen
+from pidev.kivy.DPEAButton import DPEAButton
 from joystick_screen import JoystickScreen
 
 
