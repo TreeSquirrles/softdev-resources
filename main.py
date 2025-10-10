@@ -31,7 +31,7 @@ from joystick_screen import JoystickScreen
 #     print("Communication with the DPiComputer board failed.")
 
 
-class MotorButtonsGUI(k.):
+class MotorButtonsGUI(App):
     """
     Class to handle running the GUI Application
     """
