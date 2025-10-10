@@ -1,14 +1,40 @@
 <JoystickScreen>
-    #TODO: Your Joystick Screen should have 4 widgets -- an ImageButton and three labels
+    ImageButton:
+        id: hatsune_btn
+        size_hint: (root.picture_size, root.picture_size)
+        #pos_hint: {'x': 0.5-root.picture_size/2, 'y': 0.5-root.picture_size/2}
+        pos:( root.width / 2 - root.width*root.picture_size/2, root.height / 2 - root.height*root.picture_size/2)
+        on_press: root.switch_screen_main()
 
-    #TODO ImageButton: The button should be centered on the screen and allow you to switch back to the main screen.
-    #TODO ImageButton: When clicked the button should play an animation before switching screens
-    #TODO ImageButton: Choose any image for the button background
-    # Check out source code https://github.com/dpengineering/RaspberryPiCommon/blob/master/pidev/kivy/ImageButton.py
-    #TODO: Have the joystick control the button's position
+    Label:
+        id: joy_x
+        color: 0, 0, 0, 1
+        pos_hint: {'x': 0, 'top': 1}
+        text_size: self.size
+        font_size: 24
+        halign: "left"
+        valign: "top"
+        text: "x: 0"
 
-    #TODO Pressed Label: This label should start off by displaying "No Buttons Pressed" on the top center of screen
-    #TODO Pressed Label: When you click any button(s) on the joystick, those button numbers should be displayed.
+    Label:
+        id: joy_y
+        color: 0, 0, 0, 1
+        pos_hint: {'right': 1, 'top': 1}
+        text_size: self.size
+        font_size: 24
+        halign: "right"
+        valign: "top"
+        text: "y: 0"
 
-    #TODO X & Y Labels: The two remaining labels should always be displaying the X and Y coordinates of the joystick.
-    #TODO X & Y Labels: Position in the top left and right of screen
+
+    Label:
+        id: pressed_btns_btn
+        font_size: 24
+        color: 'black'
+        valign: "top"
+        halign: "center"
+        text_size: self.size
+        size_hint: (0.1, None)
+        pos_hint: {'center_x': 0.5, 'top': 1}
+        text: "No Buttons Pressed"
+

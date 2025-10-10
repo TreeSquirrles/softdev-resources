@@ -23,36 +23,63 @@
   #     color: Red, Green, Blue, Alpha (Transparency) [Numbers range from 0 to 1, not 0 to 255]
   #     pos_hint: {"x": (##), "y": (##)} (used to adjust the position of the label)
   #     size_hint: (1, 0.2) [This will shrink area in which the slider can be adjusted to be more appropriate to the actual size of the slider]
-
+    # stepper_motor_button: 'stepper_motor_button'
     Slider:
-        # TODO: Use the Kivy docs (https://kivy.org/doc/stable/api-kivy.uix.slider.html) to create a slider with the following:
-        # TODO: Add id of 'position', min of -100, max of 100, step of 1, and set the position to the bottom center of the screen
+        id: slider
+        min: -100
+        max: 100
+        step: 1
         size_hint: (1, 0.05)
         pos_hint: {"y": 1/2}
 
     Label:
-        # TODO: Add the id of 'slider_text'.
-        # TODO: uncomment the text attribute below to set the text to display the slider value
-        # TODO: set color attribute to 'black'
+        id: slider_label
+        font_size: 21
+        color: 'black'
+        size_hint: (1, 0.1)
+        pos_hint: {'top': 1-0.1}
+        halign: "center"
+        text: str( int(slider.value) ) + "% " + ("CCW" if slider.value < 0 else "CW")
 
     DPEAButton:
-        # TODO: Add the id of 'change_button' and a callback to switch_screen().
-        # TODO: For the text, horizontally align center, add the text of "Joystick Screen".
-        # TODO: Position the button to an open spot on the screen
+
+        id: joystick_screen_button
+        text: 'Use Joystick'
+        color: 'black'
+        fill_color: (1, 1, 1, 1)
+        on_press: root.switch_screen()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
+
 
     DPEAButton:
-        # TODO: Add the id of 'counter_button' and a callback to counter_action().
-        # TODO: For the text, horizontally align center, set text to "0".
+        id: counter_button
+        text: '0'
+        color: 'black'
+        fill_color: (1, 1, 1, 1)
+        on_press: root.counter_action()
+        halign: 'center'
+        pos_hint: {'x': 0.5+root.button_shift, 'bottom':1 }
 
     DPEAButton:
-        # TODO: Add the id of 'servo_motor_button' and a callback to schedule_servo_motor().
-        # TODO: Make fill color red
-        # TODO: For the text, horizontally align center, add the text of "Servo Motor OFF".
+        id: servo_motor_button
+        on_press: root.schedule_servo_motor()
+        color: 'white'
+        text: 'Turn Servo ON'
+        fill_color: (0, 1, 0, 1)
+        halign: 'center'
+        font_size: 21
+        pos_hint: {'x':0.25+root.button_shift, 'bottom': 1}
 
     DPEAButton:
-        # TODO: Add the id of 'stepper_motor_button' and a callback to schedule_stepper_motor().
-        # TODO: Make fill color red
-        # TODO: For the text, horizontally align center, add the text of "Stepper Motor OFF".
+        id: stepper_motor_button
+        on_press: root.schedule_stepper_motor()
+        fill_color: (0, 1, 0, 1)
+        color: 'white'
+        text: 'Turn Stepper ON'
+        halign: 'center'
+        font_size: 21
+        pos_hint: {'x': root.button_shift, 'bottom': 1}
 
 
 <Slider>:

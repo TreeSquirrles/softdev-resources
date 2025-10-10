@@ -1,7 +1,10 @@
 import os
 
-os.environ['DISPLAY'] = ":0.0"
+from kivy.properties import ColorProperty, NumericProperty
 
+os.environ['DISPLAY'] = ":0.0"
+import sys
+sys.path.insert(0, '.venv/src/pidev')
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -15,19 +18,17 @@ from pidev.kivy.DPEAButton import DPEAButton
 from joystick_screen import JoystickScreen
 
 
-# TODO Lesson 5: Uncomment lines below
 # from dpeaDPi.DPiComputer import DPiComputer
 # from dpeaDPi.DPiStepper import *
-
+#
 # dpiStepper = DPiStepper()
 # dpiStepper.setBoardNumber(0)
 # if not dpiStepper.initialize():
-# print("Communication with the DPiStepper board failed.")
-
+#     print("Communication with the DPiStepper board failed.")
+#
 # dpiComputer = DPiComputer()
 # if not dpiComputer.initialize():
-# print("Communication with the DPiComputer board failed.")
-# -------------------------------------------------------------
+#     print("Communication with the DPiComputer board failed.")
 
 
 class MotorButtonsGUI(App):
@@ -41,11 +42,11 @@ class MotorButtonsGUI(App):
         :return: Kivy Screen Manager instance
         """
         Builder.load_file('main.kv')
-        # TODO: Load the joystick_screen.kv file here when ready
+        Builder.load_file('joystick_screen.kv')
 
         sm = ScreenManager()
         sm.add_widget(MainScreen(name='main'))
-        # TODO: add a JoystickScreen widget here
+        sm.add_widget(JoystickScreen(name='joystick'))
         sm.add_widget(PassCodeScreen(name='passCode'))
         sm.add_widget(AdminScreen(name='admin'))
         sm.add_widget(PauseScreen(name='pauseScene'))
@@ -61,12 +62,16 @@ class MainScreen(Screen):
     """
     Class to handle the main screen and its associated touch events
     """
-    # Variables for the Main Screen
-    # TODO: Add more variables here as you see fit.
+    # Properties
+    button_shift = NumericProperty(0.075)
+    # Global variables
     servo_scheduled = False
+    stepper_scheduled = False
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
+
+
 
     def counter_action(self):
         """
@@ -77,7 +82,8 @@ class MainScreen(Screen):
         """
 
         print("Call to counter_action")
-        # TODO: increase the text in the counter button by 1
+
+        self.ids.counter_button.text = str(int(self.ids.counter_button.text) + 1)
 
     def schedule_servo_motor(self):
         """
@@ -86,27 +92,27 @@ class MainScreen(Screen):
             Variables used/altered:
                 self.servo_scheduled
                 self.ids.servo_motor_script_button.text
-            It results in a call being placed to servo_motor_listener
-            Called by a Kivy button
+            It results in a call being placed to servo_motor_action
+
         """
-        #TODO: Test the functionality of this button on your GUI. 
-        #   You should be able to toggle the servo motor action on and off
-        #TODO: Find the bug in this code
+
         print("Call to schedule_servo_motor")
 
+        servo_btn = self.ids.servo_motor_button
+
+
         if not self.servo_scheduled:
-            Clock.schedule_interval(self.servo_motor_listener, 0.05)
-            self.ids.servo_motor_button.fill_color = 'green'
-            self.ids.servo_motor_button.text = 'Servo ON'
-            print("Scheduled servo motor")
+            Clock.schedule_interval(self.servo_motor_action, timeout=0.05)
+            servo_btn.fill_color = (1, 0, 0, 1)
+            servo_btn.text = "Turn Servo OFF"
 
         else:
-            Clock.unschedule(self.servo_motor_listener)
-            self.ids.servo_motor_button.fill_color = 'red'
-            self.ids.servo_motor_button.text = 'Servo OFF'
-            print("Unscheduled servo motor")
+            Clock.unschedule(self.servo_motor_action)
+            servo_btn.fill_color = (0, 1, 0, 1)
+            servo_btn.text = "Turn Servo ON"
 
-    def servo_motor_listener(self, dt=0):
+        self.servo_scheduled = not self.servo_scheduled
+    def servo_motor_action(self, dt=0):
         """
            This function reads a switch and activates the servo motor based on that input.
            Variables used/altered:
@@ -115,7 +121,7 @@ class MainScreen(Screen):
            Called by schedule_servo_motor
         """
 
-        print("Call to servo_motor_listener")
+        print("Call to servo_motor_switch_action")
 
         # if switch is pressed:
         # TODO Lesson 5: Move servo one direction
@@ -131,10 +137,27 @@ class MainScreen(Screen):
 
         print("Call to schedule_stepper_motor")
 
-        # TODO: Schedule/unschedule the Kivy Clock to run stepper_motor_listener
-        # TODO: Change the color and text of the stepper power button to indicate the status of the motor
+        stepper_btn = self.ids.stepper_motor_button
 
-    def stepper_motor_listener(self, dt=None):
+
+        if not self.stepper_scheduled:
+            Clock.schedule_interval(self.stepper_motor_action, timeout=0.05)
+            stepper_btn.fill_color = (1, 0, 0, 1)
+            stepper_btn.text = "Turn Stepper OFF"
+
+
+        else:
+            Clock.unschedule(self.stepper_motor_action)
+            stepper_btn.fill_color = (0, 1, 0, 1)
+            stepper_btn.text = "Turn Stepper ON"
+            print("Hi!")
+        print(self.ids.slider.value)
+
+        self.stepper_scheduled = not self.stepper_scheduled
+
+
+
+    def stepper_motor_action(self, dt=None):
         """
             This function is responsible for running the stepper motor based off of the slider.
             When the slider is in the middle, the stepper motor should be disabled.
@@ -142,7 +165,7 @@ class MainScreen(Screen):
             When the slider is moved left of the midpoint, the motor increases in speed in the counter-clockwise direction.
         """
 
-        print("Call to stepper_motor_listener")
+        print("Call to stepper_motor_action")
 
         # TODO: Get the value (-100 to 100) from a slider named "position"
         # TODO: Check if the slider is zero
@@ -161,8 +184,9 @@ class MainScreen(Screen):
         dpiStepper.setAccelerationInStepsPerSecondPerSecond(stepper_num, accel_steps_per_second_per_second)
 
     def switch_screen(self):
-        # TODO: set the screen manager's current screen to be the joystick screen
+        #TODO: set the screen manager's current screen to be the joystick screen
         print("Triggered switch to Joystick Screen")
+        self.manager.current = 'joystick'
 
     def admin_action(self):
         """
@@ -171,7 +195,6 @@ class MainScreen(Screen):
         :return: None
         """
         self.manager.current = 'passCode'
-
 
 if __name__ == "__main__":
     # Makes the window auto full screen
