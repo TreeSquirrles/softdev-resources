@@ -6,3 +6,4 @@ include/
 src/
 lib/
 lib64
+pidev/
