@@ -187,8 +187,9 @@ class MainScreen(Screen):
         steps_per_second: float = abs(slider_pos)/100.0 * self.max_stepper_speed
         dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second)
         dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
-        flag = True
-        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * steps_per_second), flag)
+
+        flag = False
+        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * 9999), flag)
 
     def set_motor_speed_by_revs_per_sec(self, revs_per_sec, stepper_num=0):
         """ This is a helper function that sets the speed of a stepper motor by a specified revolutions per second"""
