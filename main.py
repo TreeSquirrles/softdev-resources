@@ -1,3 +1,4 @@
+import math
 import os
 
 from kivy.properties import ColorProperty, NumericProperty
@@ -18,17 +19,22 @@ from pidev.kivy.DPEAButton import DPEAButton
 from joystick_screen import JoystickScreen
 
 
-# from dpeaDPi.DPiComputer import DPiComputer
-# from dpeaDPi.DPiStepper import *
-#
-# dpiStepper = DPiStepper()
-# dpiStepper.setBoardNumber(0)
-# if not dpiStepper.initialize():
-#     print("Communication with the DPiStepper board failed.")
-#
-# dpiComputer = DPiComputer()
-# if not dpiComputer.initialize():
-#     print("Communication with the DPiComputer board failed.")
+from dpeaDPi.DPiComputer import DPiComputer
+from dpeaDPi.DPiStepper import *
+
+dpiStepper = DPiStepper()
+dpiStepper.setBoardNumber(0)
+if not dpiStepper.initialize():
+    print("Communication with the DPiStepper board failed.")
+
+dpiStepper.setMicrostepping(8)
+steps_per_second: int = 1600
+dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second )
+dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
+
+dpiComputer = DPiComputer()
+if not dpiComputer.initialize():
+    print("Communication with the DPiComputer board failed.")
 
 
 class MotorButtonsGUI(App):
@@ -67,6 +73,8 @@ class MainScreen(Screen):
     # Global variables
     servo_scheduled = False
     stepper_scheduled = False
+
+    max_stepper_speed = 1600*5
 
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
@@ -174,6 +182,12 @@ class MainScreen(Screen):
         # TODO Lesson 5: If negative, spin stepper CCW. Speed should increase with slider.
         # TODO Lesson 5: Utilize the helper function below to clean up your motor control code
 
+        slider_pos : float = self.ids.slider.value_normalized
+
+        steps_per_second: float = abs(slider_pos) * self.max_stepper_speed
+        dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second)
+        dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
+
     def set_motor_speed_by_revs_per_sec(self, revs_per_sec, stepper_num=0):
         """ This is a helper function that sets the speed of a stepper motor by a specified revolutions per second"""
         microstepping = 8
@@ -184,7 +198,6 @@ class MainScreen(Screen):
         dpiStepper.setAccelerationInStepsPerSecondPerSecond(stepper_num, accel_steps_per_second_per_second)
 
     def switch_screen(self):
-        #TODO: set the screen manager's current screen to be the joystick screen
         print("Triggered switch to Joystick Screen")
         self.manager.current = 'joystick'
 
