@@ -121,10 +121,13 @@ print(f"Pos = {stepperStatus}")
 stepper_num = 0
 steps = -1600
 wait_to_finish_moving_flg = True
-dpiStepper.moveToRelativePositionInSteps(stepper_num, steps, wait_to_finish_moving_flg)
+for i in range(3):
+    dpiStepper.setSpeedInStepsPerSecond(0, speed_steps_per_second)
+    dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, accel_steps_per_second_per_second)
+    dpiStepper.moveToRelativePositionInSteps(stepper_num, steps, wait_to_finish_moving_flg)
+    speed_steps_per_second += 200 * microstepping
+    accel_steps_per_second_per_second += speed_steps_per_second
 
-while dpiStepper.getAllMotorsStopped() == False:
-    print(dpiStepper.getCurrentPositionInSteps(0))
 
 dpiStepper.enableMotors(False)
 
