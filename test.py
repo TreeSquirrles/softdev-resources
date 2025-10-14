@@ -121,7 +121,7 @@ print(f"Pos = {stepperStatus}")
 #
 
 stepper_num = 0
-steps = 1600
+steps = -1600
 wait_to_finish_moving_flg = False
 dpiStepper.moveToRelativePositionInSteps(stepper_num, steps, wait_to_finish_moving_flg)
 
