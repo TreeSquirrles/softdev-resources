@@ -99,9 +99,7 @@ dpiStepper.setMicrostepping(microstepping)
 speed_steps_per_second = 200 * microstepping
 accel_steps_per_second_per_second = speed_steps_per_second
 dpiStepper.setSpeedInStepsPerSecond(0, speed_steps_per_second)
-dpiStepper.setSpeedInStepsPerSecond(1, speed_steps_per_second)
 dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, accel_steps_per_second_per_second)
-dpiStepper.setAccelerationInStepsPerSecondPerSecond(1, accel_steps_per_second_per_second)
 
 #
 # It's now time to check the status of the motor:
