@@ -126,6 +126,7 @@ dpiStepper.moveToRelativePositionInSteps(stepper_num, steps, wait_to_finish_movi
 while dpiStepper.getAllMotorsStopped() == False:
     print(dpiStepper.getCurrentPositionInSteps(0))
 
+dpiStepper.enableMotors(False)
 
 # #
 # # It's now time to home the motor: Move the stepper until the home sensor is activated so the computer knows where in its rotation the motor is
