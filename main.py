@@ -115,6 +115,7 @@ class MainScreen(Screen):
             Clock.unschedule(self.servo_motor_action)
             servo_btn.fill_color = (0, 1, 0, 1)
             servo_btn.text = "Turn Servo ON"
+            dpiComputer.writeServo(0, 90)
 
         self.servo_scheduled = not self.servo_scheduled
     def servo_motor_action(self, dt=0):
