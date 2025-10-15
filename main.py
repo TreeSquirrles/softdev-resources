@@ -152,7 +152,7 @@ class MainScreen(Screen):
             Clock.schedule_interval(self.stepper_motor_action, timeout=0.05)
             stepper_btn.fill_color = (1, 0, 0, 1)
             stepper_btn.text = "Turn Stepper OFF"
-            dpiStepper.enabledMotors(False) # prevent any weird shenanigains
+            dpiStepper.enableMotors(False) # prevent any weird shenanigains
             dpiStepper.enableMotors(True)
 
 
