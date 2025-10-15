@@ -152,12 +152,14 @@ class MainScreen(Screen):
             Clock.schedule_interval(self.stepper_motor_action, timeout=0.05)
             stepper_btn.fill_color = (1, 0, 0, 1)
             stepper_btn.text = "Turn Stepper OFF"
+            dpiStepper.enableMotors(True)
 
 
         else:
             Clock.unschedule(self.stepper_motor_action)
             stepper_btn.fill_color = (0, 1, 0, 1)
             stepper_btn.text = "Turn Stepper ON"
+            dpiStepper.enableMotors(False)
             print("Hi!")
         print(self.ids.slider.value)
 
@@ -188,8 +190,7 @@ class MainScreen(Screen):
         dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second)
         dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
 
-        flag = False
-        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * 9999), flag)
+        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * steps_per_second*0.05), True)
 
     def set_motor_speed_by_revs_per_sec(self, revs_per_sec, stepper_num=0):
         """ This is a helper function that sets the speed of a stepper motor by a specified revolutions per second"""
