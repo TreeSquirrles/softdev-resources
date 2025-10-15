@@ -128,10 +128,12 @@ class MainScreen(Screen):
 
         print("Call to servo_motor_switch_action")
 
-        # if switch is pressed:
-        # TODO Lesson 5: Move servo one direction
-        # else:
-        # TODO Lesson 5: Move servo the other direction
+        value = dpiComputer.readDigitalIn(dpiComputer.IN_CONNECTOR__IN_0)
+
+        if value:
+            dpiComputer.writeServo(0, 0) # CW
+        else:
+            dpiComputer.writeServo(0, 180) # CCW
 
     def schedule_stepper_motor(self):
         """
@@ -149,6 +151,7 @@ class MainScreen(Screen):
             Clock.schedule_interval(self.stepper_motor_action, timeout=0.05)
             stepper_btn.fill_color = (1, 0, 0, 1)
             stepper_btn.text = "Turn Stepper OFF"
+            dpiStepper.enabledMotors(False) # prevent any weird shenanigains
             dpiStepper.enableMotors(True)
 
 
@@ -173,13 +176,6 @@ class MainScreen(Screen):
         """
 
         print("Call to stepper_motor_action")
-
-        # TODO: Get the value (-100 to 100) from a slider named "position"
-        # TODO: Check if the slider is zero
-        # TODO Lesson 5: If zero, decelerate, stop, and disable
-        # TODO Lesson 5: If positive, spin stepper CW. Speed should increase with slider.
-        # TODO Lesson 5: If negative, spin stepper CCW. Speed should increase with slider.
-        # TODO Lesson 5: Utilize the helper function below to clean up your motor control code
 
         slider_pos : float = self.ids.slider.value
 
