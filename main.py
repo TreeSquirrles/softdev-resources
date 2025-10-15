@@ -28,9 +28,6 @@ if not dpiStepper.initialize():
     print("Communication with the DPiStepper board failed.")
 
 dpiStepper.setMicrostepping(8)
-steps_per_second: int = 1600
-dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second )
-dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
 
 dpiComputer = DPiComputer()
 if not dpiComputer.initialize():
@@ -190,7 +187,7 @@ class MainScreen(Screen):
         dpiStepper.setSpeedInStepsPerSecond(0, steps_per_second)
         dpiStepper.setAccelerationInStepsPerSecondPerSecond(0, steps_per_second)
 
-        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * steps_per_second*0.05), True)
+        dpiStepper.moveToRelativePositionInSteps(0, int(math.copysign(1, slider_pos) * steps_per_second*0.05), False)
 
     def set_motor_speed_by_revs_per_sec(self, revs_per_sec, stepper_num=0):
         """ This is a helper function that sets the speed of a stepper motor by a specified revolutions per second"""
