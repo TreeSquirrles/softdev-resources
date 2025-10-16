@@ -8,6 +8,8 @@ od = find_odrive(serial_number=ODRIVE_CONTROLLER_SERIAL_NUMBER)
 ax = ODriveAxis(od.axis1)
 ax.set_vel_limit(5) #turns/s
 
+debounce = False
+
 
 class OdriveScreen(Screen):
     button_shift = NumericProperty(0)
@@ -22,11 +24,15 @@ class OdriveScreen(Screen):
 
     def turn_forward_5_turns(self):
         print("sent call to turn forward 5")
-        ax.set_relative_pos(5)
+        if(not debounce):
+            debounce = True
+            ax.set_relative_pos(5)
 
     def turn_backward_5_turns(self):
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
+
+    def waitForNextCommand(self):
 
     def home(self):
         pass
