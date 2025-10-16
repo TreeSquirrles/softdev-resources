@@ -20,6 +20,7 @@ class OdriveScreen(Screen):
         Clock.schedule_interval(self.waitForNextCommand, 0.05)
 
     def on_leave(self):
+        Clock.unschedule(self.waitForNextCommand)
         self.manager.current = 'main'
 
     def turn_forward_5_turns(self):
