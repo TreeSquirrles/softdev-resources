@@ -81,6 +81,15 @@
         font_size: 21
         pos_hint: {'x': root.button_shift, 'bottom': 1}
 
+    DPEAButton:
+        id: odrive_screen_button
+        on_press: root.switch_to_odrive_screen()
+        fill_color: (1,1,1,1)
+        color: 'black'
+        text: 'go to odrive control panel'
+        font_size: self.size
+        pos_hint: {'x': root.button_shift, 'bottom': 0.2}
+
 
 <Slider>:
     # Helpful modifications to the base slider class

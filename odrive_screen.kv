@@ -1,0 +1,58 @@
+<OdriveScreen>
+    DPEAButton:
+
+        id: main_screen_btn
+        text: 'Go back to main screen'
+        color: 'black'
+        text_size: self.size
+        fill_color: (1, 1, 1, 1)
+        on_press: root.on_leave()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
+
+    DPEAButton:
+
+        id: move_forward_btn
+        text: 'turn forward(CW) 5 turns'
+        color: 'black'
+        text_size: self.size
+        fill_color: (1, 1, 1, 1)
+        on_press: root.turn_forward_5_turns()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
+
+    DPEAButton:
+
+        id: move_backward_btn
+        text: 'turn Backward (CCW) 5 tunrs'
+        color: 'black'
+        text_size: self.size
+        fill_color: (1, 1, 1, 1)
+        on_press: root.turn_backward_5_turns()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
+
+    DPEAButton:
+
+        id: home_btn
+        text: 'home_motor'
+        color: 'black'
+        text_size: self.size
+        fill_color: (1, 1, 1, 1)
+        on_press: root.home()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
+
+    Slider:
+        id: slider
+        min: -100
+        max: 100
+        step: 1
+        size_hint: (1, 0.05)
+        pos_hint: {"y": 1/2}
+
+
+<Slider>:
+    # Helpful modifications to the base slider class
+    value_track: True
+    value_track_color: 0.5, 0.5, 0.5, 1

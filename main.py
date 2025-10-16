@@ -17,6 +17,7 @@ from pidev.kivy.PauseScreen import PauseScreen
 from pidev.kivy.AdminScreen import AdminScreen
 from pidev.kivy.DPEAButton import DPEAButton
 from joystick_screen import JoystickScreen
+from odrive_screen import OdriveScreen
 
 
 from dpeaDPi.DPiComputer import DPiComputer
@@ -33,6 +34,16 @@ dpiComputer = DPiComputer()
 if not dpiComputer.initialize():
     print("Communication with the DPiComputer board failed.")
 
+from dpea_odrive.odrive_helpers import *
+
+ODRIVE_CONTROLLER_SERIAL_NUMBER = "207935A1524B"
+od = find_odrive(serial_number=ODRIVE_CONTROLLER_SERIAL_NUMBER)
+assert od.config.enable_break_resistor is True, "Check for faulty break resistor."
+ax = ODriveAxis(od.axis1)
+ax.set_gains()
+if not ax.is_calibrated():
+    print("Calibrating odrive motors")
+    ax.calibrate()
 
 class MotorButtonsGUI(App):
     """
@@ -46,6 +57,7 @@ class MotorButtonsGUI(App):
         """
         Builder.load_file('main.kv')
         Builder.load_file('joystick_screen.kv')
+        Builder.load_file('odrive_screen.kv')
 
         sm = ScreenManager()
         sm.add_widget(MainScreen(name='main'))
@@ -53,6 +65,7 @@ class MotorButtonsGUI(App):
         sm.add_widget(PassCodeScreen(name='passCode'))
         sm.add_widget(AdminScreen(name='admin'))
         sm.add_widget(PauseScreen(name='pauseScene'))
+        sm.add_widget(OdriveScreen(name='odrive'))
         PassCodeScreen.set_admin_events_screen('admin')
 
         return sm
@@ -73,8 +86,10 @@ class MainScreen(Screen):
 
     max_stepper_speed = 1600*5
 
+
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
+
 
 
 
@@ -198,6 +213,10 @@ class MainScreen(Screen):
     def switch_screen(self):
         print("Triggered switch to Joystick Screen")
         self.manager.current = 'joystick'
+
+    def switch_to_odrive_screen(self):
+        print("Triggered switch to ODrive Screen")
+        self.manager.current = 'odrive'
 
     def admin_action(self):
         """
