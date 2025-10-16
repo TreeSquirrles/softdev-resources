@@ -33,6 +33,7 @@ class OdriveScreen(Screen):
         ax.set_relative_pos(-5)
 
     def waitForNextCommand(self):
+        pass
 
     def home(self):
         pass
