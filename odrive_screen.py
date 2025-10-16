@@ -32,7 +32,7 @@ class OdriveScreen(Screen):
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
 
-    def waitForNextCommand(self):
+    def waitForNextCommand(self, time=None):
         if not ax.is_busy():
            self.debounce = False
 
