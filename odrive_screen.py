@@ -21,10 +21,12 @@ class OdriveScreen(Screen):
         self.manager.current = 'main'
 
     def turn_forward_5_turns(self):
+        print("sent call to turn forward 5")
         ax.set_relative_pos(5)
         ax.wait_for_motor_to_stop()
 
     def turn_backward_5_turns(self):
+        print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
         ax.wait_for_motor_to_stop()
 
