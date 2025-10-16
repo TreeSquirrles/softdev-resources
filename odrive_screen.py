@@ -29,6 +29,11 @@ class OdriveScreen(Screen):
             ax.set_relative_pos(5)
 
     def turn_backward_5_turns(self):
+
+        if self.debounce:
+            return
+        self.debounce = True
+
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
 
