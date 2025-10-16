@@ -34,7 +34,7 @@ class OdriveScreen(Screen):
 
     def waitForNextCommand(self):
         if not ax.is_busy():
-           debounce = False
+           self.debounce = False
 
     def home(self):
         pass
