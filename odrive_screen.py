@@ -1,3 +1,4 @@
+from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from dpea_odrive.odrive_helpers import *
@@ -7,6 +8,7 @@ od = find_odrive(serial_number=ODRIVE_CONTROLLER_SERIAL_NUMBER)
 ax = ODriveAxis(od.axis1)
 
 class OdriveScreen(Screen):
+    button_shift = NumericProperty(0)
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
