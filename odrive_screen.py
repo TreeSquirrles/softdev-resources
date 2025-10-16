@@ -1,4 +1,4 @@
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, Clock
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from dpea_odrive.odrive_helpers import *
@@ -17,7 +17,7 @@ class OdriveScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
-        pass
+        Clock.schedule_interval(self.waitForNextCommand, 0.05)
 
     def on_leave(self):
         self.manager.current = 'main'
@@ -33,7 +33,8 @@ class OdriveScreen(Screen):
         ax.set_relative_pos(-5)
 
     def waitForNextCommand(self):
-        pass
+        if not ax.is_busy():
+           debounce = False
 
     def home(self):
         pass
