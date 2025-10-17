@@ -53,7 +53,7 @@ class OdriveScreen(Screen):
            self.debounce = False
 
     def btnPress(self, dt=None):
-        self.ids.btn_indicator_label.text = ("IM HAPPY YAY THE BUTTON IS PRESSED" if not digital_read(4)
+        self.ids.btn_indicator_label.text = ("IM HAPPY YAY THE BUTTON IS PRESSED" if not digital_read(od, 4)
         else "I'M NOT HAPPY BOO THE BUTTON IS NOT PRESSED")
 
     def step(self, dt=None):
