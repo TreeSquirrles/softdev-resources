@@ -25,9 +25,11 @@ class OdriveScreen(Screen):
 
     def turn_forward_5_turns(self):
         print("sent call to turn forward 5")
-        if(not self.debounce):
-            self.debounce = True
-            ax.set_relative_pos(5)
+        if self.debounce:
+            return
+
+        self.debounce = True
+        ax.set_relative_pos(5)
 
     def turn_backward_5_turns(self):
 
@@ -43,6 +45,6 @@ class OdriveScreen(Screen):
            self.debounce = False
 
     def home(self):
-        pass
+        ax.home_with_endstop(1, .5, 2)
 
 

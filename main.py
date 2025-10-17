@@ -44,6 +44,7 @@ ax.set_gains()
 if not ax.is_calibrated():
     print("Calibrating odrive motors")
     ax.calibrate()
+ax.idle()
 
 class MotorButtonsGUI(App):
     """
