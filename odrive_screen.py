@@ -45,6 +45,10 @@ class OdriveScreen(Screen):
            self.debounce = False
 
     def home(self):
+        if self.debounce:
+            return
+        print("homing")
+        self.debounce = True
         ax.home_with_endstop(1, .5, 2)
 
 
