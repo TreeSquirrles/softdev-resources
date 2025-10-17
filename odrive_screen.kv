@@ -43,6 +43,15 @@
         halign: 'center'
         pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
 
+    Label:
+        id: btn_indicator_label
+        font_size: 21
+        color: 'black'
+        size_hint: (1, 0.1)
+        pos_hint: {'top': 1-0.1}
+        halign: "center"
+        text: "I'M HAPPY YAY THE BUTTON IS PRESSED" if root.btnPress else "I'M NOT HAPPY PRESS THE BUTTON"
+
     Slider:
         id: slider
         min: -100
