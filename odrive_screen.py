@@ -1,4 +1,5 @@
-from kivy.properties import NumericProperty, Clock
+from kivy.properties import NumericProperty
+from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 from dpea_odrive.odrive_helpers import *
