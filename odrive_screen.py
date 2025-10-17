@@ -18,6 +18,7 @@ class OdriveScreen(Screen):
 
     BUTTON_PIN = 4
     POT_PIN = 3
+    MAX_DIST = 13 #rotations
     debounce = False
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
@@ -46,16 +47,18 @@ class OdriveScreen(Screen):
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
 
-    def waitForNextCommand(self, time=None):
+    def waitForNextCommand(self):
         print(round(ax.get_pos(), 2))
         if not ax.is_busy():
            self.debounce = False
 
     def btnPress(self):
-        return not digital_read(self.BUTTON_PIN)
+        self.ids.btn_indicator_label.text = ("IM HAPPY YAY THE BUTTON IS PRESSED" if not digital_read(4)
+        else "I'M NOT HAPPY BOO THE BUTTON IS NOT PRESSED")
 
-
-
+    def step(self, dt=None):
+        self.waitForNextCommand()
+        self.btnPress()
 
     def home(self):
         if self.debounce:
