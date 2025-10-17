@@ -24,7 +24,7 @@ class OdriveScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
-        Clock.schedule_interval(self.waitForNextCommand, 0.05)
+        Clock.schedule_interval(self.step, 0.05)
 
     def on_leave(self):
         Clock.unschedule(self.waitForNextCommand)
@@ -47,12 +47,12 @@ class OdriveScreen(Screen):
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
 
-    def waitForNextCommand(self):
+    def waitForNextCommand(self, dt=None):
         print(round(ax.get_pos(), 2))
         if not ax.is_busy():
            self.debounce = False
 
-    def btnPress(self):
+    def btnPress(self, dt=None):
         self.ids.btn_indicator_label.text = ("IM HAPPY YAY THE BUTTON IS PRESSED" if not digital_read(4)
         else "I'M NOT HAPPY BOO THE BUTTON IS NOT PRESSED")
 
