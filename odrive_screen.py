@@ -8,7 +8,7 @@ ODRIVE_CONTROLLER_SERIAL_NUMBER = "207935A1524B"
 od = find_odrive(serial_number=ODRIVE_CONTROLLER_SERIAL_NUMBER)
 ax = ODriveAxis(od.axis1)
 ax.set_vel_limit(5) #turns/s
-# ax.home_without_endstop(1, 0.5)
+ax.home_without_endstop(1, 0.5)
 
 #4 butt 3 pot
 
@@ -20,6 +20,8 @@ class OdriveScreen(Screen):
     POT_PIN = 3
     MAX_DIST = 13 #rotations
     debounce = False
+
+    followPot = False
     def __init__(self, **kwargs):
         super(Screen, self).__init__(**kwargs)
 
@@ -47,9 +49,23 @@ class OdriveScreen(Screen):
         print("sent call to turn backward 5")
         ax.set_relative_pos(-5)
 
+    def schedule_follow_potentiometer(self):
+
+        if not self.followPot:
+            debounce = True
+            Clock.schedule_interval(self.set_position_on_potentiometer, 0.05)
+        else:
+            Clock.unschedule(self.set_position_on_potentiometer)
+
+        self.followPot = not self.followPot
+
+    def set_position_on_potentiometer(self, dt=None):
+        ax.set_pos(self.MAX_DIST * analog_read(od, 3) / 3.3)
+
+
     def waitForNextCommand(self, dt=None):
         print(round(analog_read(od, 3)))
-        if not ax.is_busy():
+        if not self.followPot and not ax.is_busy():
            self.debounce = False
 
     def btnPress(self, dt=None):
