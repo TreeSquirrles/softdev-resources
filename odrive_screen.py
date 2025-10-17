@@ -48,7 +48,7 @@ class OdriveScreen(Screen):
         ax.set_relative_pos(-5)
 
     def waitForNextCommand(self, dt=None):
-        print(round(ax.get_pos(), 2))
+        print(round(analog_read(od, 3)))
         if not ax.is_busy():
            self.debounce = False
 
