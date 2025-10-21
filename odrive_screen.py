@@ -15,7 +15,6 @@ ax.home_without_endstop(1, 0.5)
 
 class OdriveScreen(Screen):
     button_shift = NumericProperty(0)
-
     BUTTON_PIN = 4
     POT_PIN = 3
     MAX_DIST = 13 #rotations
@@ -66,7 +65,7 @@ class OdriveScreen(Screen):
 
 
     def waitForNextCommand(self, dt=None):
-        print(round(analog_read(od, 3)))
+        print(round(analog_read(od, 3), 4))
         if not self.followPot and not ax.is_busy():
            self.debounce = False
 
