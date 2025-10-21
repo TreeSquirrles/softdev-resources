@@ -25,7 +25,7 @@ class OdriveScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
-        Clock.schedule_interval(self.step, 0.05)
+        Clock.schedule_interval(self.waitForNextCommand, 0.05)
 
     def on_leave(self):
         Clock.unschedule(self.waitForNextCommand)
@@ -61,11 +61,11 @@ class OdriveScreen(Screen):
         self.followPot = not self.followPot
 
     def set_position_on_potentiometer(self, dt=None):
+        print(round(analog_read(od, 3), 4))
         ax.set_pos(self.MAX_DIST * analog_read(od, 3) / 3.3)
 
 
     def waitForNextCommand(self, dt=None):
-        print(round(analog_read(od, 3), 4))
         if not self.followPot and not ax.is_busy():
            self.debounce = False
 
