@@ -43,6 +43,17 @@
         halign: 'center'
         pos_hint: {'x': 0.75+root.button_shift, 'bottom':1 }
 
+    DPEAButton:
+
+        id: pot_toggle
+        text: 'Toggle knob following'
+        color: 'black'
+        text_size: self.size
+        fill_color: (1, 1, 1, 1)
+        on_press: root.schedule_follow_potentiometer()
+        halign: 'center'
+        pos_hint: {'x': 0.75+root.button_shift, 'y': 0.25 }
+
     Label:
         id: btn_indicator_label
         font_size: 21
@@ -52,13 +63,13 @@
         halign: "center"
         text: "I'M NOT HAPPY PRESS THE BUTTON"
 
-    Slider:
-        id: slider
-        min: -100
-        max: 100
-        step: 1
-        size_hint: (1, 0.05)
-        pos_hint: {"y": 1/2}
+#    Slider:
+#        id: slider
+#        min: -100
+#        max: 100
+#        step: 1
+#        size_hint: (1, 0.05)
+#        pos_hint: {"y": 1/2}
 
 
 <Slider>:
