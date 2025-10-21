@@ -50,8 +50,8 @@ class OdriveScreen(Screen):
 
     def schedule_follow_potentiometer(self):
 
-        if not self.followPot:
-            debounce = True
+        if self.followPot:
+            self.debounce = True
             Clock.schedule_interval(self.set_position_on_potentiometer, 0.05)
             self.ids.follow_pot_toggle.text = "Following Potentiometer"
         else:
