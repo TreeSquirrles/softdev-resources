@@ -17,7 +17,7 @@ class OdriveScreen(Screen):
     button_shift = NumericProperty(0)
     BUTTON_PIN = 4
     POT_PIN = 3
-    MAX_DIST = 13 #rotations
+    MAX_DIST = -13 #rotations
     debounce = False
 
     followPot = False
