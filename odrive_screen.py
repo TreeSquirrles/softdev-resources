@@ -61,6 +61,7 @@ class OdriveScreen(Screen):
         self.followPot = not self.followPot
 
     def set_position_on_potentiometer(self, dt=None):
+        print("hi")
         print(round(analog_read(od, 3), 4))
         ax.set_pos(self.MAX_DIST * analog_read(od, 3) / 3.3)
 
