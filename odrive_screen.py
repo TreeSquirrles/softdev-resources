@@ -25,10 +25,11 @@ class OdriveScreen(Screen):
         super(Screen, self).__init__(**kwargs)
 
     def on_enter(self):
-        Clock.schedule_interval(self.waitForNextCommand, 0.05)
+        Clock.schedule_interval(self.step, 0.05)
 
     def on_leave(self):
-        Clock.unschedule(self.waitForNextCommand)
+        Clock.unschedule(self.step)
+        Clock.unschedule(self.set_position_on_potentiometer)
         self.manager.current = 'main'
 
     def turn_forward_5_turns(self):
